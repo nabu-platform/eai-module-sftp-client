@@ -157,6 +157,10 @@ public class Services {
 			else if (part.equals("..")) {
 				throw new IllegalArgumentException("Can't browse up in: " + parentPath);
 			}
+			// could be leading or trailing slashes
+			else if (part.trim().isEmpty()) {
+				continue;
+			}
 			if (first) {
 				first = false;
 			}
@@ -197,7 +201,7 @@ public class Services {
 			if (!path.startsWith("/")) {
 				path = "/" + path;
 			}
-			properties.setUri(new URI("sftp", null, transactionable.getHost(), transactionable.getPort(), URIUtils.encodeURI(path), null, null));
+			properties.setUri(new URI("sftp", null, transactionable.getHost(), transactionable.getPort(), path, null, null));
 		}
 		catch (URISyntaxException e) {
 			throw new RuntimeException(e);
